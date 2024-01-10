@@ -33,6 +33,9 @@ public class LogisticsApp
 
         printTransporters("[Logistic] : Transporters On Road", logisticFactory.getTransportersOnRoad());
         printTransporters("[Logistic] : Transporters Not On Road", logisticFactory.getTransportersNotOnRoad());
+
+        printTransporters("[Logistic] : Trucks", logisticFactory.getTransportersByType(TransporterTypes.Truck));
+        printTransporters("[Logistic] : Boats", logisticFactory.getTransportersByType(TransporterTypes.Boat));
     }
 
     private static void setMock(ILogistic<ITransporter> logistic)
@@ -66,6 +69,7 @@ public class LogisticsApp
             System.out.println(transporter.getLoadWeight());
             System.out.println(transporter.getRoadDistance());
             System.out.println(transporter.getOnRoad());
+            System.out.println(transporter.getTransporterType());
             System.out.println("---   ---\n");
         }
     }

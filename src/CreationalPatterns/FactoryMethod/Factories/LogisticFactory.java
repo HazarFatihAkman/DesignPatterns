@@ -57,4 +57,9 @@ public class LogisticFactory
     {
         return this._transportersNotOnRoad;
     }
+
+    public List<ITransporter> getTransportersByType(TransporterTypes transporterType)
+    {
+        return this._transporters.stream().filter(x -> x.getTransporterType() == transporterType).toList();
+    }
 }
