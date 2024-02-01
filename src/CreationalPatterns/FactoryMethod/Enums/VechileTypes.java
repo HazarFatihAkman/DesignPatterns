@@ -1,6 +1,6 @@
 package CreationalPatterns.FactoryMethod.Enums;
 
-public enum TransporterTypes
+public enum VechileTypes
 {
     Truck,
     Boat

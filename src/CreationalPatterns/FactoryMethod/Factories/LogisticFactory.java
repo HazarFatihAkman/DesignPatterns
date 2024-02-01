@@ -3,63 +3,104 @@ package CreationalPatterns.FactoryMethod.Factories;
 import java.util.ArrayList;
 import java.util.List;
 
-import CreationalPatterns.FactoryMethod.Enums.TransporterTypes;
-import CreationalPatterns.FactoryMethod.Interfaces.ILogistic;
-import CreationalPatterns.FactoryMethod.Interfaces.ITransporter;
-import CreationalPatterns.FactoryMethod.Models.RoadLogistics;
-import CreationalPatterns.FactoryMethod.Models.SeaLogistics;
+import CreationalPatterns.FactoryMethod.Enums.VechileTypes;
+import CreationalPatterns.FactoryMethod.Models.Logistic;
+import CreationalPatterns.FactoryMethod.Models.RoadLogistic;
+import CreationalPatterns.FactoryMethod.Models.SeaLogistic;
+import CreationalPatterns.FactoryMethod.Models.Vechile;
 
 public class LogisticFactory
 {
-    private List<ITransporter> _transporters;
-    private List<ITransporter> _transportersOnRoad;
-    private List<ITransporter> _transportersNotOnRoad;
+    private Logistic _seaLogisticSingletonInstance, _roadLogisticSingletonInstance;
+    private List<Vechile> _vechiles, _vechilesOnRoad, _vechilesNotOnRoad;
 
     public LogisticFactory()
     {
-        this._transporters = this._transportersOnRoad = this._transportersNotOnRoad = new ArrayList<ITransporter>();
+        this._vechiles = this._vechilesOnRoad = this._vechilesNotOnRoad = new ArrayList<Vechile>();
     }
+    
+    public Logistic getLogistic(VechileTypes vechileType) throws Exception
+    {        
+        if (vechileType == VechileTypes.Boat)
+        {
+            if (this._seaLogisticSingletonInstance == null)
+            {            
+                this._seaLogisticSingletonInstance = new SeaLogistic();
+            }
 
-    public ILogistic getLogistic(TransporterTypes transporterType)
-    {
-        switch (transporterType) {
-            case TransporterTypes.Boat:
-                return new SeaLogistics();
-            case TransporterTypes.Truck:
-                return new RoadLogistics();
-            default:
-                return null;
+            return this._seaLogisticSingletonInstance;
+        }
+        else if (vechileType == VechileTypes.Truck)
+        {
+            if (this._roadLogisticSingletonInstance == null)
+            {
+                this._roadLogisticSingletonInstance = new RoadLogistic();
+            }
+
+            return this._roadLogisticSingletonInstance;
+        }
+        else
+        {
+            throw new Exception("Out of range");
         }
     }
 
-    public void addTransportersInList(List<ITransporter> transporters)
+    public void upsertVechiles(List<Vechile> vechiles) throws Exception
     {
-        this._transporters.addAll(transporters);
+        if (vechiles == null)
+        {
+            throw new Exception("Vechiles shouldn't be null.");
+        }
+
+        for (var vechile : vechiles)
+        {
+            if (vechile.getVechileType() == VechileTypes.Boat && vechile.isUpdated())
+            {
+                upsertVechileBasedOnType(this._seaLogisticSingletonInstance, vechile);
+            }
+            else if (vechile.getVechileType() == VechileTypes.Truck && vechile.isUpdated())
+            {
+                upsertVechileBasedOnType(this._roadLogisticSingletonInstance, vechile);
+            }
+        }
+
+        this._vechiles = new ArrayList<Vechile>();
+        this._vechiles.addAll(this._seaLogisticSingletonInstance.getVechiles());
+        this._vechiles.addAll(this._roadLogisticSingletonInstance.getVechiles());
+
+        this._vechilesOnRoad = this._vechiles.stream().filter(x -> x.getOnRoad() == true).toList();
+        this._vechilesNotOnRoad = this._vechiles.stream().filter(x -> x.getOnRoad() == false).toList();
     }
 
-    public void updateTransporterLists()
+    public List<Vechile> getAllVechiles()
     {
-        this._transportersOnRoad = this._transporters.stream().filter(x -> x.getOnRoad() == true).toList();
-        this._transportersNotOnRoad = this._transporters.stream().filter(x -> x.getOnRoad() == false).toList();
+        return this._vechiles;
     }
 
-    public List<ITransporter> getAllTransporters()
+    public List<Vechile> getVechilesOnRoad()
     {
-        return this._transporters;
+        return this._vechilesOnRoad;
     }
 
-    public List<ITransporter> getTransportersOnRoad()
+    public List<Vechile> getVechilesNotOnRoad()
     {
-        return this._transportersOnRoad;
+        return this._vechilesNotOnRoad;
     }
 
-    public List<ITransporter> getTransportersNotOnRoad()
+    public List<Vechile> getVechilesByType(VechileTypes vechileType)
     {
-        return this._transportersNotOnRoad;
+        return this._vechiles.stream().filter(x -> x.getVechileType() == vechileType).toList();
     }
 
-    public List<ITransporter> getTransportersByType(TransporterTypes transporterType)
+    public void upsertVechileBasedOnType(Logistic logistic, Vechile vechile) throws Exception
     {
-        return this._transporters.stream().filter(x -> x.getTransporterType() == transporterType).toList();
+        if (logistic == null)
+        {
+            throw new Exception("Not Found Instance");
+        }
+        else
+        {
+            logistic.upsertVechile(vechile);
+        }
     }
 }
