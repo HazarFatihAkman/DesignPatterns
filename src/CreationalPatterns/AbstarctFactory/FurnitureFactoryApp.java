@@ -2,10 +2,8 @@ package CreationalPatterns.AbstarctFactory;
 
 import java.util.Scanner;
 
-import CreationalPatterns.AbstarctFactory.Factories.ArtDecoFurnitureFactory;
-import CreationalPatterns.AbstarctFactory.Factories.ModernFurnitureFactory;
-import CreationalPatterns.AbstarctFactory.Factories.VictorianFurnitureFactory;
-import CreationalPatterns.AbstarctFactory.Interfaces.IFurnitureFactory;
+import CreationalPatterns.AbstarctFactory.Factories.FurnitureFactory;
+import CreationalPatterns.AbstarctFactory.Models.Enums.FurnitureStyles;
 
 public class FurnitureFactoryApp
 {
@@ -25,38 +23,72 @@ public class FurnitureFactoryApp
     {
         Scanner scanner = new Scanner(System.in);
         Integer variatianCode = 0;
-        IFurnitureFactory factory;
-        
-        while(variatianCode < 1 || variatianCode > 3)
-        {
-            System.out.println("Select your furniture variation : \n 1 - Art Deco \n 2 - Modern \n 3 - Victorian");
-            variatianCode = scanner.nextInt();
-        }
-        scanner.close();
+        FurnitureFactory furnitureFactory = new FurnitureFactory().getInstance(null);
+        FurnitureFactory factory;
+        Boolean addNewOrder = true;
 
-        if (variatianCode == 1)
+        while (addNewOrder)
         {
-            factory = new ArtDecoFurnitureFactory();
-        }
-        else if (variatianCode == 2)
-        {
-            factory = new ModernFurnitureFactory();
-        }
-        else if (variatianCode == 3)
-        {
-            factory = new VictorianFurnitureFactory();
-        }
-        else
-        {
-            throw new Exception("out of range");
+            while(variatianCode < 1 || variatianCode > 3)
+            {
+                System.out.println("Select your furniture variation : \n 1 - Art Deco \n 2 - Modern \n 3 - Victorian");
+                variatianCode = Integer.parseInt(scanner.nextLine());
+            }
+
+            if (variatianCode == 1)
+            {
+                factory = furnitureFactory.getInstance(FurnitureStyles.ArtDeco);
+            }
+            else if (variatianCode == 2)
+            {
+                factory = furnitureFactory.getInstance(FurnitureStyles.Modern);
+            }
+            else if (variatianCode == 3)
+            {
+                factory = furnitureFactory.getInstance(FurnitureStyles.Victorian);
+            }
+            else
+            {
+                throw new Exception("out of range");
+            }
+            System.out.println(factory.hashCode());
+            var newOrder = factory.createOrder();
+            factory.addOrder(newOrder);
+
+            System.out.println("Chair -> " + newOrder.getChair().getFurnitureStyle());
+            System.out.println("Sofa -> " + newOrder.getSofa().getFurnitureStyle());
+            System.out.println("Coffee Table -> " + newOrder.getCoffeeTable().getFurnitureStyle());
+
+            String answer = new String();
+            
+            while (!answer.equals("y") && !answer.equals("n"))
+            {
+                System.out.println("Add new order? y/n");   
+                answer = scanner.nextLine().toLowerCase();
+            }
+
+            addNewOrder = answer.equals("y");
+            if (!addNewOrder)
+            {
+                scanner.close();
+            }
+            else
+            {
+                variatianCode = 0;
+            }
         }
 
-        factory.createChair();
-        factory.createCoffeeTable();
-        factory.createSofa();
+        System.out.println("\n[-----------------]");
+        System.out.println("[Order List]");
 
-        System.out.println("Chair -> " + factory.getChair().getClass().getSimpleName());
-        System.out.println("Sofa -> " + factory.getSofa().getClass().getSimpleName());
-        System.out.println("Coffee Table -> " + factory.getCoffeeTable().getClass().getSimpleName());
+        for(var order : furnitureFactory.getOrders())
+        {
+            System.out.println("---------");
+            System.out.println("Order Id : " + order.getId());
+            System.out.println("Chair Style : " + order.getChair().getFurnitureStyle());
+            System.out.println("Sofa Style : " + order.getSofa().getFurnitureStyle());
+            System.out.println("Coffee Table Style : " + order.getCoffeeTable().getFurnitureStyle());
+            System.out.println("---------");
+        }
     }
 }
