@@ -8,6 +8,7 @@
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     id 'application'
+    id 'java'
 }
 
 repositories {
@@ -22,7 +23,13 @@ java {
     }
 }
 
-application {
-    // Define the main class for the application.
-    mainClass = 'CreationalPatterns.FactoryMethod.LogisticsApp'
+
+task runLogisticsApp(type: JavaExec) {
+    mainClass = 'creationalpatterns.factorymethod.logistics.LogisticsApp'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task runFurnitureApp(type: JavaExec) {
+    mainClass = 'creationalpatterns.abstarctfactory.FurnitureFactoryApp'
+    classpath = sourceSets.main.runtimeClasspath
 }

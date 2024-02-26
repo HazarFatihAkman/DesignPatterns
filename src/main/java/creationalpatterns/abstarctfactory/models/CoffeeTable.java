@@ -1,6 +1,6 @@
-package CreationalPatterns.AbstarctFactory.Models;
+package creationalpatterns.abstarctfactory.models;
 
-import CreationalPatterns.AbstarctFactory.Models.Enums.FurnitureStyles;
+import creationalpatterns.abstarctfactory.models.Enums.FurnitureStyles;
 
 public class CoffeeTable
 {    

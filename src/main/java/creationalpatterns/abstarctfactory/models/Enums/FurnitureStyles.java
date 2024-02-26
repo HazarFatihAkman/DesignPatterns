@@ -1,4 +1,4 @@
-package CreationalPatterns.AbstarctFactory.Models.Enums;
+package creationalpatterns.abstarctfactory.models.Enums;
 
 public enum FurnitureStyles
 {

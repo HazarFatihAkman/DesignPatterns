@@ -1,9 +1,9 @@
-package CreationalPatterns.AbstarctFactory;
+package creationalpatterns.abstarctfactory;
 
 import java.util.Scanner;
 
-import CreationalPatterns.AbstarctFactory.Factories.FurnitureFactory;
-import CreationalPatterns.AbstarctFactory.Models.Enums.FurnitureStyles;
+import creationalpatterns.abstarctfactory.factories.FurnitureFactory;
+import creationalpatterns.abstarctfactory.models.Enums.FurnitureStyles;
 
 public class FurnitureFactoryApp
 {

@@ -1,4 +1,4 @@
-package CreationalPatterns.AbstarctFactory.Models;
+package creationalpatterns.abstarctfactory.models;
 
 import java.util.UUID;
 
