@@ -63,7 +63,7 @@ public class App {
     public static void buildLogisticsFor(int distance, int load, HashMap<UUID, Integer> orders) {
         var logistic = LogisticFactory.createLogistic(distance, load);
         println("===========================================================================");
-        println("Logistics for %d km distance and %d ton load: %s", distance, load, logistic);
+        println("Logistics for %d km distance and %d ton load: %s", distance, load, logistic.getClass().getSimpleName());
 
         var random = new Random(System.currentTimeMillis());
         

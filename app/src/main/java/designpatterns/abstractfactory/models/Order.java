@@ -46,9 +46,11 @@ public class Order {
     @Override
     public String toString() {
         return String
-            .format("\t[Id] : %s \n"
+            .format("\t[Order Id] : %s \n"
                    + "\t\tProducts : \n %s \n"
-                   + "[Is Ready For Delivery] : %s [Created At] : %s \n",
+                   + "\t[Is Ready For Delivery] : %s \n"
+                   + "\t[Created At] : %s \n"
+                   + "\t============================================================================= \n",
                    this.id.toString(),
                    String.join(" ", this.products.stream().map(x -> x.toString()).toList()),
                    getIsReadyForDelivery(),

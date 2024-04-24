@@ -71,13 +71,13 @@ public class Product {
 
         switch (productStyle) {
             case Modern:
-                materialCost = 11.3;
+                materialCost = 1110.3;
                 break;
             case Victorian:
-                materialCost = 15.9;
+                materialCost = 1510.9;
                 break;
             case ArtDeco:
-                materialCost = 12.5;
+                materialCost = 1210.5;
                 break;
             default:
                 throw new EnumConstantNotPresentException(ProductStyleTypes.class, productStyle.name());
@@ -98,13 +98,13 @@ public class Product {
     public int getShippingDayCount() {
         var price = getPrice();
 
-        if (price > 0 && price <= 55) {
+        if (price > 0 && price <= 5500) {
             return 5;
         }
-        else if (price > 55 && price <= 60) {
+        else if (price > 5500 && price <= 8000) {
             return 8;
         }
-        else if (price > 60) {
+        else if (price > 8000) {
             return 10;
         }
 
@@ -115,11 +115,11 @@ public class Product {
     public String toString() {
         return String
             .format("\t\t\t[%s] \n"
-                    + "\t\t\t [Price : %.2f €] \n"
-                    + "\t\t\t [Manufacturing Cost : %.2f €] \n"
-                    + "\t\t\t [%d ton] \n"
-                    + "\t\t\t [Ready For Shipping in %d] \n"
-                    + "=========================================================================== \n",
+                    + "\t\t\t[Price : %.2f €] \n"
+                    + "\t\t\t[Manufacturing Cost : %.2f €] \n"
+                    + "\t\t\t[%d ton] \n"
+                    + "\t\t\t[Ready For Shipping in %d] \n"
+                    + "\t\t\t=========================================================================== \n",
                   name,
                   getPrice(),
                   getManufacturingCost(),
